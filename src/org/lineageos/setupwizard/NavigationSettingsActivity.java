@@ -22,7 +22,7 @@ import static android.view.WindowManagerPolicyConstants.NAV_BAR_MODE_GESTURAL_OV
 
 import static com.android.systemui.shared.recents.utilities.Utilities.isLargeScreen;
 
-import static org.lineageos.internal.util.DeviceKeysConstants.KEY_MASK_APP_SWITCH;
+import static com.android.internal.util.libremobileos.DeviceKeysConstants.KEY_MASK_APP_SWITCH;
 import static org.lineageos.setupwizard.SetupWizardApp.DISABLE_NAV_KEYS;
 import static org.lineageos.setupwizard.SetupWizardApp.NAVIGATION_OPTION_KEY;
 
@@ -32,6 +32,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.UserHandle;
+import android.provider.Settings;
 import android.content.Context;
 import android.view.View;
 import android.widget.CheckBox;
@@ -41,8 +42,6 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.setupcompat.util.WizardManagerHelper;
-
-import lineageos.providers.LineageSettings;
 
 import org.lineageos.setupwizard.util.SetupWizardUtils;
 
@@ -67,11 +66,11 @@ public class NavigationSettingsActivity extends BaseSetupWizardActivity {
         if (mSetupWizardApp.getSettingsBundle().containsKey(DISABLE_NAV_KEYS)) {
             navBarEnabled = mSetupWizardApp.getSettingsBundle().getBoolean(DISABLE_NAV_KEYS);
         }
-        mIsTaskbarEnabled = LineageSettings.System.getInt(getContentResolver(),
-                LineageSettings.System.ENABLE_TASKBAR, isLargeScreen(this) ? 1 : 0) == 1;
+        mIsTaskbarEnabled = Settings.System.getInt(getContentResolver(),
+                Settings.System.ENABLE_TASKBAR, isLargeScreen(this) ? 1 : 0) == 1;
 
         int deviceKeys = getResources().getInteger(
-                org.lineageos.platform.internal.R.integer.config_deviceHardwareKeys);
+                com.android.internal.R.integer.config_deviceHardwareKeys);
         boolean hasHomeKey = (deviceKeys & KEY_MASK_APP_SWITCH) != 0;
 
         getGlifLayout().setDescriptionText(getString(R.string.navigation_summary));
@@ -186,8 +185,8 @@ public class NavigationSettingsActivity extends BaseSetupWizardActivity {
         mSetupWizardApp.getSettingsBundle().putString(NAVIGATION_OPTION_KEY, mSelection);
         if (!mIsTaskbarEnabled) {
             boolean hideHint = mHideGesturalHint.isChecked();
-            LineageSettings.System.putIntForUser(getContentResolver(),
-                    LineageSettings.System.NAVIGATION_BAR_HINT, hideHint ? 0 : 1,
+            Settings.System.putIntForUser(getContentResolver(),
+                    Settings.System.NAVIGATION_BAR_HINT, hideHint ? 0 : 1,
                     UserHandle.USER_CURRENT);
         }
         Intent intent = WizardManagerHelper.getNextIntent(getIntent(), Activity.RESULT_OK);
