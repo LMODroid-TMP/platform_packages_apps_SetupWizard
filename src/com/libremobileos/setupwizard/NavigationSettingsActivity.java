@@ -20,7 +20,7 @@ import static android.view.WindowManagerPolicyConstants.NAV_BAR_MODE_2BUTTON_OVE
 import static android.view.WindowManagerPolicyConstants.NAV_BAR_MODE_3BUTTON_OVERLAY;
 import static android.view.WindowManagerPolicyConstants.NAV_BAR_MODE_GESTURAL_OVERLAY;
 
-import static com.android.internal.util.libremobileos.DeviceKeysConstants.KEY_MASK_APP_SWITCH;
+import static com.libremobileos.util.DeviceKeysConstants.KEY_MASK_APP_SWITCH;
 import static com.libremobileos.setupwizard.SetupWizardApp.DISABLE_NAV_KEYS;
 import static com.libremobileos.setupwizard.SetupWizardApp.NAVIGATION_OPTION_KEY;
 
@@ -42,6 +42,8 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.setupcompat.util.WizardManagerHelper;
 
 import com.libremobileos.setupwizard.util.SetupWizardUtils;
+
+import com.libremobileos.providers.LMOSettings;
 
 public class NavigationSettingsActivity extends BaseSetupWizardActivity {
 
@@ -166,7 +168,7 @@ public class NavigationSettingsActivity extends BaseSetupWizardActivity {
         mSetupWizardApp.getSettingsBundle().putString(NAVIGATION_OPTION_KEY, mSelection);
         boolean hideHint = mHideGesturalHint.isChecked();
         Settings.System.putIntForUser(getContentResolver(),
-                Settings.System.NAVIGATION_BAR_HINT, hideHint ? 0 : 1,
+                LMOSettings.System.NAVIGATION_BAR_HINT, hideHint ? 0 : 1,
                 UserHandle.USER_CURRENT);
         Intent intent = WizardManagerHelper.getNextIntent(getIntent(), Activity.RESULT_OK);
         nextAction(NEXT_REQUEST, intent);

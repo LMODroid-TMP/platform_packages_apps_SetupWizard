@@ -56,6 +56,8 @@ import com.google.android.setupcompat.util.WizardManagerHelper;
 
 import com.libremobileos.setupwizard.util.SetupWizardUtils;
 
+import com.libremobileos.providers.LMOSettings;
+
 public class FinishActivity extends BaseSetupWizardActivity {
 
     public static final String TAG = FinishActivity.class.getSimpleName();
@@ -219,11 +221,11 @@ public class FinishActivity extends BaseSetupWizardActivity {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         final boolean virtualKeysEnabled = Settings.System.getIntForUser(
-                context.getContentResolver(), Settings.System.FORCE_SHOW_NAVBAR, 0,
+                context.getContentResolver(), LMOSettings.System.FORCE_SHOW_NAVBAR, 0,
                 UserHandle.USER_CURRENT) != 0;
         if (enabled != virtualKeysEnabled) {
             Settings.System.putIntForUser(context.getContentResolver(),
-                    Settings.System.FORCE_SHOW_NAVBAR, enabled ? 1 : 0,
+                    LMOSettings.System.FORCE_SHOW_NAVBAR, enabled ? 1 : 0,
                     UserHandle.USER_CURRENT);
         }
     }
