@@ -38,7 +38,10 @@ android_app {
         "SystemUISharedLib",
     ],
 
-    libs: ["telephony-common"],
+    libs: [
+        "telephony-common",
+        "framework-lmodroid",
+    ],
 
     required: ["privapp_whitelist_com.libremobileos.setupwizard"],
 }
